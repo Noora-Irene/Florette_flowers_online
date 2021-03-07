@@ -17,7 +17,8 @@ exports.postAddArticle = (req, res, next) => {
       title: title, // right: data received in controller action, left: keys of schema
       image: image,
       price: price,
-      description: description
+      description: description,
+      userId: req.user
    });
    article
       .save() // method comes from mongoose

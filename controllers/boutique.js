@@ -36,66 +36,34 @@ exports.getArticle = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
    req.user
-      .getCart()
-      .then(cart => {
-         return cart
-            .getArticles()
-            .then(articles => {
-               res.render('boutique/cart', {
-                  path: '/cart',
-                  pageTitle: 'Ostoskorisi',
-                  articles: articles
-               });
-            })
-            .catch(err => console.log(err));
+      .populate('cart.items.articleId')
+      .execPopulate()
+      .then(user => {
+         const articles = user.cart.items;
+         res.render('boutique/cart', {
+            path: '/cart',
+            pageTitle: 'Ostoskorisi',
+            articles: articles
+         });
       })
       .catch(err => console.log(err));
 };
 
 exports.postCart = (req, res, next) => {
    const artId = req.body.articleId;
-   let fetchedCart;
-   let newQuantity = 1;
-   req.user
-      .getCart()
-      .then(cart => {
-         fetchedCart = cart;
-         return cart.getArticles({ where: { id: artId } });
-      })
-      .then(articles => {
-         let article;
-         if (articles.length > 0) {
-            article = articles[0];
-         }
-         if (article) {
-            const oldQuantity = article.cartItem.quantity;
-            newQuantity = oldQuantity + 1;
-            return article;
-         }
-         return Article.findById(artId)
-      })
+   Article.findById(artId)
       .then(article => {
-         return fetchedCart.addArticle(article, {
-            through: { quantity: newQuantity }
-         });
+         return req.user.addToCart(article);
       })
-      .then(() => {
+      .then(result => {
          res.redirect('/cart');
-      })
-      .catch(err => console.log(err));
+      });
 };
 
 exports.postCartDelete = (req, res, next) => {
    const artId = req.body.articleId;
    req.user
-      .getCart()
-      .then(cart => {
-         return cart.getArticles({ where: { id: artId } });
-      })
-      .then(articles => {
-         const article = articles[0];
-         article.cartItem.destroy();
-      })
+      .deleteCartItem(artId)
       .then(result => {
          res.redirect('/cart');
       })

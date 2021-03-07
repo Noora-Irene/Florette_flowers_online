@@ -18,18 +18,18 @@
          <% if (articles.length> 0) { %>
 
             <ul class="cart__item-list">
-               <% articles.forEach(p=> { %>
+               <% articles.forEach(i=> { %>
                   <li class="cart__item">
                      <p>
                      <h1>
-                        <%= p.title %>
+                        <%= i.articleId.title %>
                      </h1>
                      <h2>Määrä:
-                        <%= p.cartItem.quantity %>
+                        <%= i.quantity %>
                      </h2>
                      </p>
                      <form action="/delete-cart-item" method="POST">
-                        <input type="hidden" value="<%= p.id %>" name="articleId">
+                        <input type="hidden" value="<%= i.articleId._id %>" name="articleId">
                         <button class="btn danger" type="submit">Poista</button>
                      </form>
                   </li>
