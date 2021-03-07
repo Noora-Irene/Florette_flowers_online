@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>
+      <%= pageTitle %>
+   </title>
+   <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+   <%- include('../attached/navi.ejs') %>
+      <main>
+         <% if (orders.length <=0) { %>
+            <h2>Ei tilauksia</h2>
+            <% } else { %>
+               <ul>
+                  <% orders.forEach(order=> { %>
+                     <li>
+                        <h2>Tilausnro: <%= order.id %>
+                        </h2>
+                        <ul>
+                           <% order.articles.forEach(article=> { %>
+                              <li>
+                                 <%= article.title %> (<%= article.orderItem.quantity %>)
+                              </li>
+                              <% }); %>
+                        </ul>
+                     </li>
+                     <% }); %>
+               </ul>
+               <% } %>
+      </main>
+</body>
+
+</html>

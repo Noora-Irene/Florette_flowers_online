@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>
+      <%= pageTitle %>
+   </title>
+   <link rel="stylesheet" href="/css/main.css">
+   <link rel="stylesheet" href="/css/item.css">
+</head>
+
+<body>
+   <%- include('../attached/navi.ejs') %>
+
+      <main class="centered">
+         <h1>
+            <%= article.title %>
+         </h1>
+         <hr>
+         <div>
+            <img src="<%= article.image %>" alt="<%= article.title %>">
+         </div>
+         <h2>
+            <%= article.price %>
+         </h2>
+         <p>
+            <%= article.description%>
+         </p>
+
+      </main>
+</body>
+
+</html>
