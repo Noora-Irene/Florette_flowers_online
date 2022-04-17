@@ -52,7 +52,7 @@ mongoose
                user.save();
             }
          });
-      exp.listen(3000);
+      exp.listen(process.env.PORT);
    })
    .catch(err => {
       console.log(err);
